@@ -67,6 +67,8 @@ export default defineNuxtConfig({
     public: {
       // Пустое значение: сборка без сервера, вместо формы показываются прямые контакты
       orderEndpoint: '',
+      // Ссылка на Яндекс Форму: показывается на /zayavka, если нет своего приёма заявок
+      yandexFormUrl: '',
       metrikaId: '',
       yandexVerification: '',
     },

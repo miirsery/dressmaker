@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { site } from '~/data/site'
+import { yandexFormUrl } from '~/utils/yandexForm'
 
-const { orderEndpoint } = useRuntimeConfig().public
+const { orderEndpoint, yandexFormUrl: formUrl } = useRuntimeConfig().public
+const hasYandexForm = Boolean(yandexFormUrl(formUrl))
 
 usePageSeo({
   title: 'Заявка на пошив косплея или расчёт производства | Анна Швецова',
@@ -21,6 +23,7 @@ usePageSeo({
 
     <div class="section wrap request">
       <OrderForm v-if="orderEndpoint" />
+      <OrderYandex v-else-if="hasYandexForm" />
       <OrderDirect v-else />
 
       <aside class="request__side" aria-label="Другие способы связи">
