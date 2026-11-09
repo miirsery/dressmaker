@@ -1,0 +1,208 @@
+:root {
+  /* Палитра взята из швейной коробки */
+  --paper: #fff9ec;      /* калька */
+  --white: #fffefa;      /* бирка */
+  --linen: #f4e6cc;      /* небелёный лён */
+  --tape: #f7cb3f;       /* сантиметровая лента */
+  --ink: #2a1930;        /* чернильный баклажан */
+  --ink-soft: #594760;
+  --thread: #ab1049;     /* малиновая нитка */
+  --chalk: #2545a0;      /* синий портновский мел */
+  --grid: 225 130 70;    /* оранжевая миллиметровка */
+
+  --font-display: 'Vollkorn', Georgia, serif;
+  --font-body: 'Commissioner', system-ui, sans-serif;
+  --font-hand: 'Caveat', 'Segoe Print', cursive;
+
+  --gutter: 22px;
+  --weave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M0 1.5h6M0 4.5h6' stroke='%23a07a3c' stroke-opacity='.09'/%3E%3Cpath d='M1.5 0v6M4.5 0v6' stroke='%23ffffff' stroke-opacity='.55'/%3E%3C/svg%3E");
+  --weave-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M0 1.5h6M0 4.5h6' stroke='%23704c00' stroke-opacity='.14'/%3E%3Cpath d='M1.5 0v6M4.5 0v6' stroke='%23ffffff' stroke-opacity='.3'/%3E%3C/svg%3E");
+  --needle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpath d='M2 2 L24 29 L28 25 Z' fill='%236d6470' stroke='%23fff' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M2 2 L24 29 L28 25 Z' fill='none' stroke='%232a1930' stroke-width='.7'/%3E%3C/svg%3E");
+  --needle-thread: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpath d='M26 27 C31 20 18 22 30 12' fill='none' stroke='%23ab1049' stroke-width='2' stroke-dasharray='3 2'/%3E%3Cpath d='M2 2 L24 29 L28 25 Z' fill='%236d6470' stroke='%23fff' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M2 2 L24 29 L28 25 Z' fill='none' stroke='%232a1930' stroke-width='.7'/%3E%3C/svg%3E");
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 40px;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  overflow-x: clip;
+  font: 400 1.0625rem/1.55 var(--font-body);
+  color: var(--ink);
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(to right, rgb(var(--grid) / .2) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--grid) / .2) 1px, transparent 1px),
+    linear-gradient(to right, rgb(var(--grid) / .08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--grid) / .08) 1px, transparent 1px);
+  background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;
+  cursor: var(--needle) 2 2, auto;
+}
+
+a, button, summary, label, input[type='range'] {
+  cursor: var(--needle-thread) 2 2, pointer;
+}
+
+a { color: var(--chalk); text-underline-offset: 3px; }
+a:hover { color: var(--thread); }
+
+img { max-width: 100%; }
+
+/* Скрытые радиокнопки остаются внутри своей подписи, фокус не прыгает по странице */
+label:has(> input.sr-only) { position: relative; }
+
+h1, h2, h3 { text-wrap: balance; }
+
+:focus-visible {
+  outline: 3px solid var(--chalk);
+  outline-offset: 3px;
+}
+
+main:focus { outline: none; }
+
+/* Бирки поворачиваются при появлении и не должны расширять страницу на телефоне */
+main { overflow-x: clip; }
+
+.wrap {
+  width: min(100% - 2 * var(--gutter), 1240px);
+  margin-inline: auto;
+}
+
+.skip {
+  position: absolute;
+  top: -80px;
+  left: 16px;
+  z-index: 60;
+  padding: 12px 18px;
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.skip:focus { top: 34px; color: var(--paper); }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Пометка мелом на выкройке */
+.note {
+  font: 600 1.4rem/1.2 var(--font-hand);
+  color: var(--chalk);
+}
+
+.section { padding-block: 56px; }
+
+.section__title {
+  margin: 0 0 14px;
+  font: 900 clamp(2.25rem, 7.5vw, 4.25rem)/1.02 var(--font-display);
+}
+
+.section__lead { max-width: 52ch; margin: 0 0 32px; }
+
+.page-head { padding-block: 28px 44px; }
+
+.page-head__title {
+  margin: 0 0 12px;
+  font: italic 900 clamp(3rem, 13vw, 7.5rem)/0.95 var(--font-display);
+}
+
+.page-head__lead { max-width: 56ch; margin: 0; font-size: 1.1875rem; }
+
+/* Кнопка как лоскут: по краю идёт строчка */
+.btn {
+  position: relative;
+  display: inline-block;
+  padding: 15px 26px;
+  font: 700 1.0625rem/1.2 var(--font-body);
+  color: var(--paper);
+  text-decoration: none;
+  background: var(--ink);
+  border: 0;
+  transition: translate 0.15s;
+}
+
+.btn::after {
+  position: absolute;
+  inset: 5px;
+  pointer-events: none;
+  content: '';
+  border: 1.5px dashed currentColor;
+  opacity: 0.75;
+}
+
+.btn:hover { color: var(--paper); translate: 0 -2px; }
+
+.btn--light {
+  color: var(--ink);
+  background: var(--tape);
+}
+
+.btn--light:hover { color: var(--ink); }
+
+/* Прокрутка: появление секций */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rise {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 45%;
+    }
+
+    .swing {
+      transform-origin: 50% 0;
+      animation: swing linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(44px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes swing {
+  from { opacity: 0; transform: rotate(-9deg) translateY(-24px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Запасной вариант на IntersectionObserver */
+.js-io .rise,
+.js-io .swing {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+
+.js-io .rise.in,
+.js-io .swing.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (min-width: 760px) {
+  :root { --gutter: 56px; }
+  .section { padding-block: 96px; }
+  .page-head { padding-block: 40px 72px; }
+}
