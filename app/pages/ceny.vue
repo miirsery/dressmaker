@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { priceCategories } from '~/data/prices'
+import { faq } from '~/data/site'
 
-const { url } = useSiteConfig()
-const base = url.replace(/\/$/, '')
+const base = useSiteBase()
 
 usePageSeo({
   title: 'Цены на пошив косплея, ремонт и услуги технолога | Анна Швецова',
@@ -12,7 +12,14 @@ usePageSeo({
 
 useJsonLd({
   '@context': 'https://schema.org',
-  '@graph': priceCategories.map(category => ({
+  '@graph': [{
+    '@type': 'FAQPage',
+    'mainEntity': faq.map(item => ({
+      '@type': 'Question',
+      'name': item.question,
+      'acceptedAnswer': { '@type': 'Answer', 'text': item.answer },
+    })),
+  }, ...priceCategories.map(category => ({
     '@type': 'Service',
     'name': category.title,
     'description': category.lead,
@@ -33,7 +40,7 @@ useJsonLd({
         },
       })),
     },
-  })),
+  }))],
 })
 </script>
 
@@ -58,6 +65,13 @@ useJsonLd({
       <h2 class="section__title">Калькулятор</h2>
       <p class="section__lead">Отметьте параметры заказа, и справа появится примерная цена с разбивкой.</p>
       <LazyPriceCalculator hydrate-on-visible />
+    </section>
+
+    <SeamLine />
+
+    <section class="section wrap">
+      <h2 class="section__title">Частые вопросы</h2>
+      <LazyFaqList hydrate-never />
     </section>
 
     <SeamLine />

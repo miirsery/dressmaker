@@ -6,8 +6,10 @@
     "dev": "nuxt dev",
     "build": "nuxt build",
     "generate": "nuxt generate",
-    "preview": "npx serve .output/public -l 4173",
+    "preview": "node .output/server/index.mjs",
+    "test": "vitest run",
     "og": "node scripts/make-og.mjs",
+    "techcard": "node scripts/make-techcard.mjs",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
@@ -16,5 +18,8 @@
     "@nuxtjs/robots": "^7.0.2",
     "@nuxtjs/sitemap": "^9.1.0",
     "nuxt": "^4.6.4"
+  },
+  "devDependencies": {
+    "vitest": "^5.1.0"
   }
 }

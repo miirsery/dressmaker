@@ -73,3 +73,31 @@ export const pluralRu = (n: number, forms: readonly [string, string, string]): s
 }
 
 export const rub = (n: number): string => `${n.toLocaleString('ru-RU')} ₽`
+
+const pickKey = <T extends string>(value: unknown, map: Record<T, unknown>): T | null =>
+  typeof value === 'string' && Object.hasOwn(map, value) ? value as T : null
+
+/** Разбирает параметры ссылки из калькулятора. Любое неверное значение отменяет разбор. */
+export const parseEstimateQuery = (query: Record<string, unknown>): EstimateInput | null => {
+  const job = pickKey(query.job, JOBS)
+  const complexity = pickKey(query.complexity, COMPLEXITY)
+  const urgency = pickKey(query.urgency, URGENCY)
+  const materials = pickKey(query.materials, MATERIALS)
+  const volume = Number(query.volume)
+  if (!job || !complexity || !urgency || !materials) return null
+  if (!Number.isInteger(volume) || volume < 1 || volume > 12) return null
+  return { job, complexity, urgency, materials, volume }
+}
+
+export const describeEstimate = (input: EstimateInput): string => {
+  const job = JOBS[input.job]
+  const total = estimate(input)
+  return [
+    job.label,
+    `Сложность: ${COMPLEXITY[input.complexity].label}`,
+    `Объём: ${input.volume} ${pluralRu(input.volume, job.units)}`,
+    `Срок: ${URGENCY[input.urgency].label}`,
+    ...(job.usesMaterials ? [`Материалы: ${MATERIALS[input.materials].label}`] : []),
+    `Ориентир: ${rub(total.from)} – ${rub(total.to)}`,
+  ].join('\n')
+}

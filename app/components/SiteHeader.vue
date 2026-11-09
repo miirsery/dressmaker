@@ -18,7 +18,7 @@ import { nav, site } from '~/data/site'
         <li v-for="item in nav" :key="item.to">
           <NuxtLink :to="item.to" class="head__link">{{ item.label }}</NuxtLink>
         </li>
-        <li><a href="#kontakty" class="head__link">Написать</a></li>
+        <li><NuxtLink to="/zayavka" class="head__link">Заявка</NuxtLink></li>
       </ul>
     </nav>
   </header>

@@ -17,10 +17,11 @@ const props = withDefaults(defineProps<{
 const WIDTHS = [360, 480, 640, 800, 1000, 1240]
 
 const $img = useImage()
-const provider = props.src.startsWith('/') ? 'ipx' : 'unsplash'
+// Для локальных файлов провайдер выбирает Nuxt: на сервере и в статической сборке он разный
+const options = props.src.startsWith('/') ? {} : { provider: 'unsplash' }
 
 const url = (width: number, format: string, quality: number) =>
-  $img(props.src, { width, format, quality }, { provider })
+  $img(props.src, { width, format, quality }, options)
 
 const srcset = (format: string, quality: number) =>
   WIDTHS.map(width => `${url(width, format, quality)} ${width}w`).join(', ')

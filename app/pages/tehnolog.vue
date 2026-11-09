@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const { url } = useSiteConfig()
-const base = url.replace(/\/$/, '')
+const { baseURL } = useRuntimeConfig().app
+const base = useSiteBase()
 
 usePageSeo({
   title: 'Технолог швейного производства: техкарты и себестоимость | Анна Швецова',
@@ -64,7 +64,10 @@ const costs = [
       <div>
         <h2 class="section__title">Как выглядит расчёт</h2>
         <p class="section__lead">Пример для платья на подкладке при партии 50 штук. Цифры условные, в реальном расчёте они берутся из вашей раскладки и расценок цеха.</p>
-        <NuxtLink class="btn" to="/ceny#tehnolog">Цены на услуги технолога</NuxtLink>
+        <p class="cost__actions">
+          <a class="btn" :href="`${baseURL}primer-tehkarty.pdf`" download>Скачать пример техкарты, PDF</a>
+          <NuxtLink to="/ceny#tehnolog">Цены на услуги технолога</NuxtLink>
+        </p>
       </div>
 
       <table class="sheet rise">
@@ -99,6 +102,14 @@ const costs = [
 .deliver__text { margin: 0; max-width: 54ch; }
 
 .cost { display: grid; gap: 36px; }
+
+.cost__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 22px;
+  align-items: center;
+  margin: 0;
+}
 
 .sheet {
   width: 100%;

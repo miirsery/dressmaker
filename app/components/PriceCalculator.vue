@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { site } from '~/data/site'
 import type { Complexity, JobType, Materials, Urgency } from '~/utils/estimate'
 import { COMPLEXITY, JOBS, MATERIALS, URGENCY, estimate, pluralRu, rub } from '~/utils/estimate'
 
@@ -20,17 +19,16 @@ const result = computed(() => estimate({
 const jobInfo = computed(() => JOBS[job.value])
 const volumeText = computed(() => `${volume.value} ${pluralRu(volume.value, jobInfo.value.units)}`)
 
-const mailto = computed(() => {
-  const lines = [
-    `Вид работы: ${jobInfo.value.label}`,
-    `Сложность: ${COMPLEXITY[complexity.value].label}`,
-    `Объём: ${volumeText.value}`,
-    `Срок: ${URGENCY[urgency.value].label}`,
-    ...(jobInfo.value.usesMaterials ? [`Материалы: ${MATERIALS[materials.value].label}`] : []),
-    `Ориентир: ${rub(result.value.from)} – ${rub(result.value.to)}`,
-  ]
-  return `mailto:${site.email}?subject=${encodeURIComponent('Расчёт с сайта')}&body=${encodeURIComponent(lines.join('\n'))}`
-})
+const orderLink = computed(() => ({
+  path: '/zayavka',
+  query: {
+    job: job.value,
+    complexity: complexity.value,
+    volume: String(volume.value),
+    urgency: urgency.value,
+    materials: materials.value,
+  },
+}))
 
 const ticks = Array.from({ length: 12 }, (_, i) => i + 1)
 </script>
@@ -103,7 +101,7 @@ const ticks = Array.from({ length: 12 }, (_, i) => i + 1)
         </tbody>
       </table>
       <p class="receipt__fine">Это прикидка, а не договорная цена. Точную сумму посчитаю индивидуально, когда увижу референс и сниму мерки.</p>
-      <a class="btn" :href="mailto">Отправить расчёт на почту</a>
+      <NuxtLink class="btn" :to="orderLink">Оставить заявку с этим расчётом</NuxtLink>
     </aside>
   </form>
 </template>

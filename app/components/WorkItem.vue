@@ -27,6 +27,7 @@ defineProps<{ work: Work, level?: 2 | 3, flip?: boolean, eager?: boolean }>()
         </dd>
       </dl>
 
+      <p class="work__more"><NuxtLink :to="`/raboty/${work.slug}`" :aria-label="`Подробнее: ${work.title}`">Подробнее об этой работе</NuxtLink></p>
       <a v-if="work.creditUrl" class="work__credit" :href="work.creditUrl" rel="noopener nofollow">Источник фото: Unsplash</a>
     </div>
   </article>
@@ -90,6 +91,9 @@ defineProps<{ work: Work, level?: 2 | 3, flip?: boolean, eager?: boolean }>()
   color: var(--thread);
   font-weight: 700;
 }
+
+.work__more { margin: 14px 0 0; font-weight: 600; }
+.work__more a { display: inline-block; padding-block: 6px; }
 
 .work__credit {
   display: inline-block;

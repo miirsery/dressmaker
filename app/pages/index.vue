@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { works } from '~/data/works'
+import { processPhotos, works } from '~/data/works'
+import { site } from '~/data/site'
 
 usePageSeo({
   title: 'Анна Швецова: косплей на заказ и технолог швейного производства',
@@ -37,6 +38,7 @@ const desktopLines = [
           <NuxtLink class="btn" to="/ceny#kalkulyator">Посчитать стоимость</NuxtLink>
           <NuxtLink class="btn btn--light" to="/raboty">Смотреть работы</NuxtLink>
         </div>
+        <p class="note hero__slot">ближайшее свободное окно: {{ site.nextSlot }}</p>
       </div>
 
       <div class="hero__piece">
@@ -90,8 +92,22 @@ const desktopLines = [
           </ul>
           <NuxtLink to="/tehnolog">Что делаю как технолог</NuxtLink>
         </div>
+
+        <div class="sides__compare">
+          <LazyFaceBack
+            hydrate-on-visible
+            :face="{ src: works[2]!.src, alt: works[2]!.alt, focus: works[2]!.focus }"
+            :back="{ src: processPhotos[2]!.src, alt: processPhotos[2]!.alt }"
+          >
+            Потяните шов, чтобы увидеть обе стороны. Сейчас здесь два временных снимка разных вещей, позже будет один костюм снаружи и изнутри.
+          </LazyFaceBack>
+        </div>
       </div>
     </section>
+
+    <SeamLine />
+
+    <LazyAboutMaster hydrate-never />
 
     <SeamLine />
 
@@ -117,6 +133,8 @@ const desktopLines = [
     </section>
 
     <SeamLine />
+
+    <LazyReviewsBlock hydrate-never />
 
     <section class="section">
       <div class="wrap">
@@ -152,6 +170,10 @@ const desktopLines = [
   flex-wrap: wrap;
   gap: 12px;
 }
+
+.hero__slot { margin: 16px 0 0; }
+
+.sides__compare { width: min(100%, 520px); margin-top: 8px; }
 
 .hero__piece {
   position: relative;
@@ -234,6 +256,7 @@ const desktopLines = [
   .sides__title { grid-column: 1 / -1; margin-bottom: 36px; }
   .sides__face, .sides__back { padding: 36px 40px 40px; }
   .sides__back { translate: -1px 40px; }
+  .sides__compare { grid-column: 1 / -1; justify-self: center; margin-top: 96px; }
 }
 
 @media (min-width: 980px) {

@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { site } from '~/data/site'
 
-const { url } = useSiteConfig()
-const base = url.replace(/\/$/, '')
+const base = useSiteBase()
+
+const { yandexVerification } = useRuntimeConfig().public
 
 useHead({
   titleTemplate: (title?: string) => title ?? 'Анна Швецова, швея-технолог',
+  meta: yandexVerification ? [{ name: 'yandex-verification', content: yandexVerification }] : [],
 })
 
 useJsonLd({
@@ -51,4 +53,5 @@ useJsonLd({
   </main>
   <LazySiteFooter hydrate-never />
   <ThreadRunner />
+  <AnalyticsConsent />
 </template>

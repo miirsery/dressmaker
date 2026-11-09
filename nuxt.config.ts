@@ -1,4 +1,7 @@
 const siteUrl = process.env.NUXT_PUBLIC_SITE_URL ?? 'https://atelier-shvetsova.example'
+const baseURL = process.env.NUXT_APP_BASE_URL ?? '/'
+// robots.txt работает только в корне домена, в подкаталоге GitHub Pages он не нужен
+const hasRobotsTxt = baseURL === '/'
 
 export default defineNuxtConfig({
   compatibilityDate: '2026-11-01',
@@ -9,6 +12,7 @@ export default defineNuxtConfig({
     url: siteUrl,
     name: 'Анна Швецова, швея-технолог',
     defaultLocale: 'ru',
+    indexable: process.env.NUXT_SITE_INDEXABLE !== 'false',
   },
 
   app: {
@@ -17,7 +21,7 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1',
       meta: [{ name: 'theme-color', content: '#f7cb3f' }],
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        { rel: 'icon', type: 'image/svg+xml', href: `${baseURL}favicon.svg` },
         { rel: 'preconnect', href: 'https://images.unsplash.com', crossorigin: '' },
       ],
     },
@@ -56,7 +60,27 @@ export default defineNuxtConfig({
     defaults: { nuxtLink: { prefetchOn: { interaction: true, visibility: false } } },
   },
 
+  runtimeConfig: {
+    telegramBotToken: '',
+    telegramChatId: '',
+    telegramApiBase: 'https://api.telegram.org',
+    public: {
+      // Пустое значение: сборка без сервера, вместо формы показываются прямые контакты
+      orderEndpoint: '',
+      metrikaId: '',
+      yandexVerification: '',
+    },
+  },
+
+  sitemap: { exclude: ['/politika', '/soglasie'] },
+
+  robots: { robotsTxt: hasRobotsTxt },
+
+  // Страницы готовятся заранее, живым остаётся только приём заявок
+  routeRules: { '/**': { prerender: true }, '/api/**': { prerender: false } },
+
   nitro: {
-    prerender: { crawlLinks: true, routes: ['/', '/sitemap.xml', '/robots.txt'] },
+    compressPublicAssets: true,
+    prerender: { crawlLinks: true, routes: ['/', '/sitemap.xml', ...(hasRobotsTxt ? ['/robots.txt'] : [])] },
   },
 })

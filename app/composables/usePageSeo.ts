@@ -4,10 +4,17 @@ interface PageSeo {
   path: string
 }
 
-export const usePageSeo = ({ title, description, path }: PageSeo) => {
+/** Полный адрес сайта с подкаталогом, без завершающего слэша */
+export const useSiteBase = () => {
   const { url } = useSiteConfig()
-  const canonical = `${url.replace(/\/$/, '')}${path === '/' ? '/' : path}`
-  const image = `${url.replace(/\/$/, '')}/og.png`
+  const { baseURL } = useRuntimeConfig().app
+  return `${url.replace(/\/$/, '')}${baseURL.replace(/\/$/, '')}`
+}
+
+export const usePageSeo = ({ title, description, path }: PageSeo) => {
+  const base = useSiteBase()
+  const canonical = `${base}${path}`
+  const image = `${base}/og.png`
 
   useSeoMeta({
     title,

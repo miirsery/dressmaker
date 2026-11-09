@@ -11,6 +11,7 @@ const year = 2026
         <p class="note foot__note">напишите, что хотите сшить</p>
         <h2 class="foot__title">Пришлите референс, дату и бюджет.</h2>
         <p class="foot__lead">Отвечу в течение дня и скажу, успеваем ли. Для производства приложите эскиз или образец и объём партии.</p>
+        <p class="foot__cta"><NuxtLink class="btn" to="/zayavka">Оставить заявку</NuxtLink></p>
       </div>
 
       <div class="foot__links">
@@ -22,6 +23,7 @@ const year = 2026
             <NuxtLink :to="item.to">{{ item.label }}</NuxtLink>
           </li>
           <li><a :href="site.vk" rel="noopener">ВКонтакте</a></li>
+          <li><NuxtLink to="/politika">Обработка данных</NuxtLink></li>
         </ul>
       </div>
     </div>
@@ -50,6 +52,8 @@ const year = 2026
 }
 
 .foot__lead { max-width: 46ch; margin: 0; }
+
+.foot__cta { margin: 22px 0 0; }
 
 .foot__links {
   display: flex;

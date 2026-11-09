@@ -4,7 +4,7 @@ const route = useRoute()
 const svg = ref<SVGSVGElement>()
 const path = ref<SVGPathElement>()
 const needle = ref<SVGGElement>()
-const size = reactive({ width: 0, height: 0 })
+const size = { width: 0, height: 0 }
 const d = ref('')
 
 const STITCH = 12
@@ -24,7 +24,7 @@ const pageY = (el: Element) => el.getBoundingClientRect().top + window.scrollY
 
 const build = () => {
   const width = document.documentElement.clientWidth
-  const height = document.documentElement.scrollHeight
+  const height = document.body.offsetHeight
   if (d.value && width === size.width && height === size.height) return
   size.width = width
   size.height = height
@@ -168,8 +168,6 @@ onBeforeUnmount(() => {
     class="thread"
     aria-hidden="true"
     focusable="false"
-    :width="size.width"
-    :height="size.height"
   >
     <path ref="path" class="thread__line" :d="d" />
     <g ref="needle" class="thread__needle">
@@ -184,6 +182,9 @@ onBeforeUnmount(() => {
   position: absolute;
   top: 0;
   left: 0;
+  /* Слой всегда равен body, поэтому не может растянуть страницу после перехода с длинной */
+  width: 100%;
+  height: 100%;
   z-index: 30;
   pointer-events: none;
 }
